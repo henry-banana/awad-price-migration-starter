@@ -1,0 +1,1335 @@
+
+=== S04 baseline v1 identity | 2026-10-14T19:53:42.1083978+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: git rev-parse v1
+2b889bde433190c17744f30d3900d38ab333a756
+EXIT_CODE=0
+
+=== S08 baseline migrate | 2026-10-14T19:53:42.1714865+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run migrate
+npm notice run awad-price-migration-starter@1.0.0 migrate
+npm notice run node scripts/migrate.js up
+applied  001_init
+EXIT_CODE=0
+
+=== S08 baseline seed | 2026-10-14T19:53:42.5703633+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run seed
+npm notice run awad-price-migration-starter@1.0.0 seed
+npm notice run node scripts/seed.js
+seeded 20000 menu items
+EXIT_CODE=0
+
+=== S08 baseline check | 2026-10-14T19:53:42.9497545+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- baseline
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js baseline
+phase                      baseline
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price
+rows                       20000
+legacy_invalid             0
+CONSISTENT
+EXIT_CODE=0
+
+=== S08 starter tests | 2026-10-14T19:53:43.3268012+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET /menu/:id returns price in thousands of dong (29.3501ms)
+✔ PATCH /menu/:id changes the price (6.2993ms)
+✔ POST /orders totals at the current price (2.2213ms)
+✔ errors have one shape (3.6642ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 164.2285
+EXIT_CODE=0
+
+=== S09 v1-v1 health | 2026-10-14T19:54:35.6104118+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v1 -Version3002 v1
+PORT=3001 EXPECTED=v1 COMMIT=2b889bde433190c17744f30d3900d38ab333a756
+{
+  "ok": true
+}
+v1 health has no version/DB; also verify the server console path and startup command.
+PORT=3002 EXPECTED=v1 COMMIT=2b889bde433190c17744f30d3900d38ab333a756
+{
+  "ok": true
+}
+v1 health has no version/DB; also verify the server console path and startup command.
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+
+=== traffic start 2026-10-14T12:54:25.786Z · targets http://localhost:3001 http://localhost:3002 · configured NEW_CLIENTS=0.3 · initial active=0 (gate absent)
+   5.1s ok=6508 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=6508 new_ok=0 new_inflight=0
+  10.1s ok=13491 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=13491 new_ok=0 new_inflight=0
+EXIT_CODE=0
+
+=== S09 traffic baseline data | 2026-10-14T19:54:35.9376767+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- baseline
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js baseline
+phase                      baseline
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price
+rows                       20291
+legacy_invalid             0
+CONSISTENT
+EXIT_CODE=0
+
+=== S10 expand002 under v1-v1 traffic | 2026-10-14T19:54:36.4172914+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run migrate
+npm notice run awad-price-migration-starter@1.0.0 migrate
+npm notice run node scripts/migrate.js up
+applied  002_expand_price_vnd
+EXIT_CODE=0
+
+=== S10 after expand | 2026-10-14T19:54:36.8086811+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- expand
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js expand
+phase                      expand
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       20316
+legacy_invalid             0
+price_vnd_null             20316
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+Legacy authoritative; NULL/mismatch in price_vnd are pending reconciliation.
+CONSISTENT
+EXIT_CODE=0
+
+=== S11 RED EXPECTED FAIL v2 tests against starter implementation | 2026-10-14T19:55:03.5827736+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✖ GET detail and list preserve old and new price fields (38.2686ms)
+✖ old/new POST and PATCH persist correct integer prices (13.0391ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (7.1848ms)
+✖ invalid price and conflicting fields reject both write paths (24.9116ms)
+✖ sub-dong inputs normalize once and errors retain their shape (8.0199ms)
+✖ v2 reads legacy and atomically dual-writes (6.8862ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.9232
+
+✖ failing tests:
+
+test at test\app.test.js:27:1
+✖ GET detail and list preserve old and new price fields (38.2686ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+      id: 1,
+      name: 'Pho',
+      price: 45.5,
+  -   priceVnd: 45500
+    }
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:29:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { id: 1, name: 'Pho', price: 45.5 },
+    expected: { id: 1, name: 'Pho', price: 45.5, priceVnd: 45500 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at test\app.test.js:36:1
+✖ old/new POST and PATCH persist correct integer prices (13.0391ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 45500
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:40:12
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 45500,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\app.test.js:61:1
+✖ invalid price and conflicting fields reject both write paths (24.9116ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  201 !== 400
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:66:12
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 201,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\app.test.js:71:1
+✖ sub-dong inputs normalize once and errors retain their shape (8.0199ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 45501
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:74:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 45501,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test\app.test.js:79:1
+✖ v2 reads legacy and atomically dual-writes (6.8862ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 45500
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:81:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 45500,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+EXIT_CODE=1
+
+=== S11 GREEN v2 tests | 2026-10-14T19:55:04.9851302+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (36.9764ms)
+✔ old/new POST and PATCH persist correct integer prices (27.2923ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (10.5582ms)
+✔ invalid price and conflicting fields reject both write paths (27.8341ms)
+✔ sub-dong inputs normalize once and errors retain their shape (6.338ms)
+✔ v2 reads legacy and atomically dual-writes (9.3861ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 224.0638
+EXIT_CODE=0
+
+=== S12 live data before v2 deploy | 2026-10-14T19:55:05.6071940+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- expand
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js expand
+phase                      expand
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       21042
+legacy_invalid             0
+price_vnd_null             21042
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+Legacy authoritative; NULL/mismatch in price_vnd are pending reconciliation.
+CONSISTENT
+EXIT_CODE=0
+
+=== S13 A-v2 B-v1 health and traffic | 2026-10-14T19:55:28.8431980+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v2 -Version3002 v1
+PORT=3001 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 20752
+}
+PORT=3002 EXPECTED=v1 COMMIT=2b889bde433190c17744f30d3900d38ab333a756
+{
+  "ok": true
+}
+v1 health has no version/DB; also verify the server console path and startup command.
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+  50.1s ok=95730 error=0 contract=0 stale=0 unavailable=0 rerouted=176 old_ok=95730 new_ok=0 new_inflight=0
+  53.4s http://localhost:3001 back
+  55.1s ok=113467 error=0 contract=0 stale=0 unavailable=0 rerouted=229 old_ok=113467 new_ok=0 new_inflight=0
+  60.1s ok=119870 error=0 contract=0 stale=0 unavailable=0 rerouted=229 old_ok=119870 new_ok=0 new_inflight=0
+EXIT_CODE=0
+
+=== S13 after A v2 | 2026-10-14T19:55:29.1799427+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- expand
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js expand
+phase                      expand
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       22453
+legacy_invalid             0
+price_vnd_null             21375
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   227
+legacy_missing_with_vnd    0
+Legacy authoritative; NULL/mismatch in price_vnd are pending reconciliation.
+CONSISTENT
+EXIT_CODE=0
+
+=== S14 A-v2 B-v2 health and traffic | 2026-10-14T19:56:12.2924186+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v2 -Version3002 v2
+PORT=3001 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 20752
+}
+PORT=3002 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 15196
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+  95.1s ok=278948 error=0 contract=0 stale=0 unavailable=0 rerouted=825 old_ok=278948 new_ok=0 new_inflight=0
+  96.5s http://localhost:3002 back
+ 100.1s ok=290248 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=290248 new_ok=0 new_inflight=0
+ 105.1s ok=296717 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=296717 new_ok=0 new_inflight=0
+EXIT_CODE=0
+
+=== S14 after B v2 | 2026-10-14T19:56:12.6252674+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- expand
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js expand
+phase                      expand
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       25991
+legacy_invalid             0
+price_vnd_null             20395
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+Legacy authoritative; NULL/mismatch in price_vnd are pending reconciliation.
+CONSISTENT
+EXIT_CODE=0
+
+=== S15 backfill pause after three committed batches under v2-v2 | 2026-10-14T19:56:13.0290232+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: node scripts/backfill.js
+batch=500 total=500
+batch=500 total=1000
+batch=500 total=1500
+BACKFILL PAUSED after 3 committed batches; pending work may remain
+EXIT_CODE=0
+
+=== S15 paused data | 2026-10-14T19:56:13.3255603+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- expand
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js expand
+phase                      expand
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       26010
+legacy_invalid             0
+price_vnd_null             18895
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+Legacy authoritative; NULL/mismatch in price_vnd are pending reconciliation.
+CONSISTENT
+EXIT_CODE=0
+
+=== S16 backfill resume | 2026-10-14T19:56:13.7003316+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: node scripts/backfill.js
+batch=500 total=500
+batch=500 total=1000
+batch=500 total=1500
+batch=500 total=2000
+batch=500 total=2500
+batch=500 total=3000
+batch=500 total=3500
+batch=500 total=4000
+batch=500 total=4500
+batch=500 total=5000
+batch=500 total=5500
+batch=500 total=6000
+batch=500 total=6500
+batch=500 total=7000
+batch=500 total=7500
+batch=500 total=8000
+batch=500 total=8500
+batch=500 total=9000
+batch=500 total=9500
+batch=500 total=10000
+batch=500 total=10500
+batch=500 total=11000
+batch=500 total=11500
+batch=500 total=12000
+batch=500 total=12500
+batch=500 total=13000
+batch=500 total=13500
+batch=500 total=14000
+batch=500 total=14500
+batch=500 total=15000
+batch=500 total=15500
+batch=500 total=16000
+batch=500 total=16500
+batch=500 total=17000
+batch=500 total=17500
+batch=500 total=18000
+batch=500 total=18500
+batch=395 total=18895
+batch=0 total=18895
+BACKFILL COMPLETE
+EXIT_CODE=0
+
+=== S16 immediate dual check | 2026-10-14T19:56:16.5587410+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       26081
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S16 backfill idempotent rerun | 2026-10-14T19:56:16.9640737+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: node scripts/backfill.js
+batch=0 total=0
+BACKFILL COMPLETE
+EXIT_CODE=0
+
+=== S16 after rerun | 2026-10-14T19:56:17.0443063+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       26093
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S17 enabled new clients health and counters | 2026-10-14T19:56:35.3140023+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v2 -Version3002 v2
+PORT=3001 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 20752
+}
+PORT=3002 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 15196
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 111.8s NEW_CLIENTS enabled ratio=0.3
+ 115.1s ok=308890 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=307465 new_ok=1425 new_inflight=2
+ 120.1s ok=315086 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=311837 new_ok=3249 new_inflight=3
+ 125.1s ok=321579 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=316429 new_ok=5150 new_inflight=3
+EXIT_CODE=0
+
+=== S17 data with new clients | 2026-10-14T19:56:35.6829005+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       26616
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S18 RED EXPECTED FAIL canonical-read test against v2 implementation | 2026-10-14T19:56:36.1536956+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (40.1651ms)
+✔ old/new POST and PATCH persist correct integer prices (26.7934ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (6.3044ms)
+✔ invalid price and conflicting fields reject both write paths (27.9517ms)
+✔ sub-dong inputs normalize once and errors retain their shape (6.5232ms)
+✖ v3 reads canonical for detail, list and orders, and dual-writes (6.3998ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 221.0445
+
+✖ failing tests:
+
+test at test\app.test.js:79:1
+✖ v3 reads canonical for detail, list and orders, and dual-writes (6.3998ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 45.5
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:81:10
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 45.5,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+EXIT_CODE=1
+
+=== S18 GREEN v3 tests | 2026-10-14T19:56:37.6546413+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (37.6916ms)
+✔ old/new POST and PATCH persist correct integer prices (26.9924ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (6.2401ms)
+✔ invalid price and conflicting fields reject both write paths (24.9541ms)
+✔ sub-dong inputs normalize once and errors retain their shape (5.7953ms)
+✔ v3 reads canonical for detail, list and orders, and dual-writes (10.0699ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 215.0289
+EXIT_CODE=0
+
+=== S18 live data before v3 deploy | 2026-10-14T19:56:38.2623073+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       26680
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S19 A-v3 B-v2 health and traffic | 2026-10-14T19:57:15.5292384+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v3 -Version3002 v2
+PORT=3001 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 26032
+}
+PORT=3002 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 15196
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 159.8s http://localhost:3001 back
+ 160.1s ok=462192 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=414913 new_ok=47279 new_inflight=2
+ 165.1s ok=468890 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=419608 new_ok=49282 new_inflight=1
+ 170.1s ok=475259 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=424117 new_ok=51142 new_inflight=2
+EXIT_CODE=0
+
+=== S19 after A v3 | 2026-10-14T19:57:15.8730510+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       29670
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S20 A-v3 B-v3 health and traffic | 2026-10-14T19:57:28.2852660+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v3 -Version3002 v3
+PORT=3001 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 26032
+}
+PORT=3002 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 15960
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 170.6s http://localhost:3002 down (ECONNRESET)
+ 172.5s http://localhost:3002 back
+ 175.1s ok=487116 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=432372 new_ok=54744 new_inflight=4
+ 180.1s ok=493374 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=436722 new_ok=56652 new_inflight=2
+EXIT_CODE=0
+
+=== S20 after B v3 | 2026-10-14T19:57:28.6189319+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       30112
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S21 BEFORE required v3-to-v2 rollback | 2026-10-14T19:57:29.0261416+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       30124
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S22 ROLLBACK A-v2 B-v3 health and traffic | 2026-10-14T19:58:00.8234858+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v2 -Version3002 v3
+PORT=3001 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 14540
+}
+PORT=3002 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 15960
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 205.1s http://localhost:3001 back
+ 205.1s ok=529351 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=461972 new_ok=67379 new_inflight=1
+ 210.1s ok=535974 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=466597 new_ok=69377 new_inflight=4
+ 215.1s ok=542254 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=470943 new_ok=71311 new_inflight=3
+EXIT_CODE=0
+
+=== S22 dual after rollback A | 2026-10-14T19:58:01.1760044+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       31021
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S23 ROLLBACK A-v2 B-v2 health and traffic | 2026-10-14T19:58:13.6583624+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v2 -Version3002 v2
+PORT=3001 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 14540
+}
+PORT=3002 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 7768
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 216.0s http://localhost:3002 down (ECONNRESET)
+ 218.2s http://localhost:3002 back
+ 220.1s ok=552536 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=478182 new_ok=74354 new_inflight=3
+ 225.1s ok=559482 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=483008 new_ok=76474 new_inflight=3
+EXIT_CODE=0
+
+=== S23 dual after rollback B | 2026-10-14T19:58:13.9756616+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       31462
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S24 FORWARD A-v3 B-v2 health and traffic | 2026-10-14T19:58:46.1915986+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v3 -Version3002 v2
+PORT=3001 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22564
+}
+PORT=3002 EXPECTED=v2 COMMIT=55592813cd5f884ffb995da497d6c7e73181915f
+{
+  "ok": true,
+  "version": "v2",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 7768
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 250.2s ok=595995 error=0 contract=0 stale=0 unavailable=0 rerouted=1495 old_ok=508261 new_ok=87734 new_inflight=2
+ 250.5s http://localhost:3001 back
+ 255.2s ok=603193 error=0 contract=0 stale=0 unavailable=0 rerouted=1497 old_ok=513296 new_ok=89897 new_inflight=1
+ 260.2s ok=609734 error=0 contract=0 stale=0 unavailable=0 rerouted=1497 old_ok=517808 new_ok=91926 new_inflight=4
+EXIT_CODE=0
+
+=== S24 dual after forward A | 2026-10-14T19:58:46.5193870+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       32390
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S25 FORWARD A-v3 B-v3 health and traffic | 2026-10-14T19:58:59.0203031+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v3 -Version3002 v3
+PORT=3001 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22564
+}
+PORT=3002 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 24804
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 261.5s http://localhost:3002 down (ECONNREFUSED)
+ 263.3s http://localhost:3002 back
+ 265.2s ok=620849 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=525599 new_ok=95250 new_inflight=1
+ 270.2s ok=627591 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=530377 new_ok=97214 new_inflight=1
+EXIT_CODE=0
+
+=== S25 dual AFTER required rollback and forward | 2026-10-14T19:58:59.3493341+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       32823
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S26 RED EXPECTED FAIL VND-only write test against v3 implementation | 2026-10-14T19:58:59.7823738+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (39.2468ms)
+✔ old/new POST and PATCH persist correct integer prices (26.263ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (5.4701ms)
+✔ invalid price and conflicting fields reject both write paths (27.9522ms)
+✔ sub-dong inputs normalize once and errors retain their shape (8.1657ms)
+✖ v4 works before and after drop, preserves legacy API and never writes old column (11.1444ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.1397
+
+✖ failing tests:
+
+test at test\app.test.js:79:1
+✖ v4 works before and after drop, preserves legacy API and never writes old column (11.1444ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  63 !== 1
+  
+      at file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:89:12
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async fixture (file:///D:/Workspace/1.%20Study/courses-fit-hcmus/2026-2027/csc13114-advanced-web/IA%2302/awad-price-migration-starter/test/app.test.js:23:9)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 63,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+EXIT_CODE=1
+
+=== S26 GREEN v4 tests before contract | 2026-10-14T19:59:18.0379556+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (37.238ms)
+✔ old/new POST and PATCH persist correct integer prices (24.8011ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (5.2794ms)
+✔ invalid price and conflicting fields reject both write paths (25.7179ms)
+✔ sub-dong inputs normalize once and errors retain their shape (5.9023ms)
+✔ v4 works before and after drop, preserves legacy API and never writes old column (11.5872ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 212.9921
+EXIT_CODE=0
+
+=== S26 live dual data before v4 | 2026-10-14T19:59:18.6398267+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       33307
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S27 BEFORE first v4 point-of-no-return boundary | 2026-10-14T19:59:19.3353889+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- canonical
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js canonical
+phase                      canonical
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       33325
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+price_vnd authoritative; legacy counts remain visible but do not decide this phase.
+CONSISTENT
+EXIT_CODE=0
+
+=== S27 BOUNDARY A-v4 B-v3 health and traffic | 2026-10-14T19:59:31.8802405+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v4 -Version3002 v3
+PORT=3001 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22144
+}
+PORT=3002 EXPECTED=v3 COMMIT=08e854353d0efd26f722989f1835189f0a60c824
+{
+  "ok": true,
+  "version": "v3",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 24804
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 295.2s ok=660701 error=0 contract=0 stale=0 unavailable=0 rerouted=1550 old_ok=553621 new_ok=107080 new_inflight=5
+ 296.3s http://localhost:3001 back
+ 300.2s ok=670526 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=560508 new_ok=110018 new_inflight=1
+ 305.2s ok=676668 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=564802 new_ok=111866 new_inflight=1
+EXIT_CODE=0
+
+=== S27 canonical after first v4 writer | 2026-10-14T19:59:32.2453993+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- canonical
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js canonical
+phase                      canonical
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       33738
+legacy_invalid             124
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   732
+legacy_missing_with_vnd    124
+price_vnd authoritative; legacy counts remain visible but do not decide this phase.
+CONSISTENT
+EXIT_CODE=0
+
+=== S28 A-v4 B-v4 health and traffic | 2026-10-14T20:00:25.4348321+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v4 -Version3002 v4
+PORT=3001 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22144
+}
+PORT=3002 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 26072
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 347.8s http://localhost:3002 down (ECONNRESET)
+ 350.0s http://localhost:3002 back
+ 350.2s ok=741320 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=610144 new_ok=131176 new_inflight=1
+ 355.2s ok=747732 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=614654 new_ok=133078 new_inflight=2
+EXIT_CODE=0
+
+=== S28 canonical after B v4 | 2026-10-14T20:00:25.7431726+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- canonical
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js canonical
+phase                      canonical
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price, price_vnd
+rows                       35277
+legacy_invalid             1107
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   1848
+legacy_missing_with_vnd    1107
+price_vnd authoritative; legacy counts remain visible but do not decide this phase.
+CONSISTENT
+EXIT_CODE=0
+
+=== S29 confirm v4-v4 BEFORE DROP | 2026-10-14T20:00:26.1345675+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v4 -Version3002 v4
+PORT=3001 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22144
+}
+PORT=3002 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 26072
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 350.0s http://localhost:3002 back
+ 350.2s ok=741320 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=610144 new_ok=131176 new_inflight=1
+ 355.2s ok=747732 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=614654 new_ok=133078 new_inflight=2
+ 360.2s ok=754043 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=619081 new_ok=134962 new_inflight=0
+EXIT_CODE=0
+
+=== S29 CONTRACT003 under live traffic | 2026-10-14T20:00:26.3415829+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run migrate
+npm notice run awad-price-migration-starter@1.0.0 migrate
+npm notice run node scripts/migrate.js up
+applied  003_drop_price
+EXIT_CODE=0
+
+=== S29 immediate contract check | 2026-10-14T20:00:26.7252598+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price_vnd
+rows                       35303
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0
+
+=== S29 final migration status | 2026-10-14T20:00:27.1226194+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run migrate:status
+npm notice run awad-price-migration-starter@1.0.0 migrate:status
+npm notice run node scripts/migrate.js status
+db D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+[x] 001_init
+[x] 002_expand_price_vnd
+[x] 003_drop_price
+EXIT_CODE=0
+
+=== S30 live old-new API and order probes after DROP | 2026-10-14T20:00:27.5225645+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Contract.ps1
+Old-client POST on port 3001
+{
+  "id": 35320,
+  "name": "Manual compatibility probe",
+  "price": 45.5,
+  "priceVnd": 45500
+}
+New-client PATCH on port 3002
+{
+  "id": 35320,
+  "name": "Manual compatibility probe",
+  "price": 50,
+  "priceVnd": 50000
+}
+Old-client PATCH on port 3001
+{
+  "id": 35320,
+  "name": "Manual compatibility probe",
+  "price": 51,
+  "priceVnd": 51000
+}
+GET detail on port 3002
+{
+  "id": 35320,
+  "name": "Manual compatibility probe",
+  "price": 51,
+  "priceVnd": 51000
+}
+GET list on port 3001
+[
+  {
+    "id": 1,
+    "name": "Phở bò #1",
+    "price": 112,
+    "priceVnd": 112000
+  },
+  {
+    "id": 2,
+    "name": "Bún chả #2",
+    "price": 28,
+    "priceVnd": 28000
+  },
+  {
+    "id": 3,
+    "name": "Cơm tấm #3",
+    "price": 231,
+    "priceVnd": 231000
+  }
+]
+Order on port 3002 (thousands of dong)
+{
+  "id": 113382,
+  "total": 102
+}
+PASS: old/new HTTP contract and order unit after DROP
+EXIT_CODE=0
+
+=== S30 after API probes | 2026-10-14T20:00:27.6888923+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price_vnd
+rows                       35328
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0
+
+=== S31 v4 tests after contract | 2026-10-14T20:00:28.0539849+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd test
+npm notice run awad-price-migration-starter@1.0.0 test
+npm notice run node --test --test-reporter=spec
+✔ GET detail and list preserve old and new price fields (35.0442ms)
+✔ old/new POST and PATCH persist correct integer prices (21.67ms)
+✔ orders preserve thousand-dong unit and recorded unit_price (7.4528ms)
+✔ invalid price and conflicting fields reject both write paths (25.7389ms)
+✔ sub-dong inputs normalize once and errors retain their shape (6.9535ms)
+✔ v4 works before and after drop, preserves legacy API and never writes old column (9.7623ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 208.424
+EXIT_CODE=0
+
+=== S31 final data under traffic | 2026-10-14T20:00:28.6215947+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price_vnd
+rows                       35353
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0
+
+=== S32 final live health and traffic checkpoint after contract tests | 2026-10-14T20:00:56.1695868+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: & ..\script\Check-Instances.ps1 -Version3001 v4 -Version3002 v4
+PORT=3001 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 22144
+}
+PORT=3002 EXPECTED=v4 COMMIT=0cb5b7fb5782f79e8bd99477550bd5004452e688
+{
+  "ok": true,
+  "version": "v4",
+  "db": "D:\\Workspace\\1. Study\\courses-fit-hcmus\\2026-2027\\csc13114-advanced-web\\IA#02\\awad-price-migration-starter\\data\\app.db",
+  "pid": 26072
+}
+TRAFFIC CHECKPOINT (check counters and down/back events before continuing):
+ 375.2s ok=773572 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=632686 new_ok=140886 new_inflight=2
+ 380.2s ok=780060 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=637206 new_ok=142854 new_inflight=2
+ 385.2s ok=786358 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=641658 new_ok=144700 new_inflight=3
+ 390.2s ok=792988 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=646274 new_ok=146714 new_inflight=2
+EXIT_CODE=0
+
+=== S32 traffic FINAL and RESULT | 2026-10-14T20:00:57.2581097+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: Get-Content '.\traffic-log.txt' -Tail 4
+ 390.2s ok=792988 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=646274 new_ok=146714 new_inflight=2
+ 390.8s operator requested traffic stop; draining requests
+ 390.8s FINAL ok=793623 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=646726 new_ok=146897 new_inflight=0
+RESULT: zero failed requests
+EXIT_CODE=0
+
+=== S32 main data after traffic stops | 2026-10-14T20:00:57.2937867+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price_vnd
+rows                       36026
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0
+
+=== S33 isolated DB migrate all | 2026-10-14T20:00:58.7492829+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run migrate
+npm notice run awad-price-migration-starter@1.0.0 migrate
+npm notice run node scripts/migrate.js up
+applied  001_init
+applied  002_expand_price_vnd
+applied  003_drop_price
+EXIT_CODE=0
+
+=== S33 isolated sample VND45500 | 2026-10-14T20:00:59.1492153+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: & ..\script\Inspect-Down.ps1 -Check InsertSample
+Inserted sample: price_vnd=45500
+EXIT_CODE=0
+
+=== S33 isolated contract check | 2026-10-14T20:00:59.2549485+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db
+columns                    id, name, price_vnd
+rows                       1
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0
+
+=== S33 DOWN003 | 2026-10-14T20:00:59.6140727+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run migrate:down
+npm notice run awad-price-migration-starter@1.0.0 migrate:down
+npm notice run node scripts/migrate.js down
+reverted 003_drop_price
+EXIT_CODE=0
+
+=== S33 after DOWN003 | 2026-10-14T20:01:00.0036354+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run check -- dual
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js dual
+phase                      dual
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db
+columns                    id, name, price_vnd, price
+rows                       1
+legacy_invalid             0
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+disagree                   0
+legacy_missing_with_vnd    0
+CONSISTENT
+EXIT_CODE=0
+
+=== S33 restored legacy sample price45.5 | 2026-10-14T20:01:00.3500550+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: & ..\script\Inspect-Down.ps1 -Check RestoredSample
+{"name":"Down probe","price":45.5,"price_vnd":45500}
+PASS: down003 restored legacy price
+EXIT_CODE=0
+
+=== S33 DOWN002 | 2026-10-14T20:01:00.4276200+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run migrate:down
+npm notice run awad-price-migration-starter@1.0.0 migrate:down
+npm notice run node scripts/migrate.js down
+reverted 002_expand_price_vnd
+EXIT_CODE=0
+
+=== S33 after DOWN002 | 2026-10-14T20:01:00.7889037+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run check -- baseline
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js baseline
+phase                      baseline
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db
+columns                    id, name, price
+rows                       1
+legacy_invalid             0
+CONSISTENT
+EXIT_CODE=0
+
+=== S33 DOWN001 | 2026-10-14T20:01:01.1423930+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run migrate:down
+npm notice run awad-price-migration-starter@1.0.0 migrate:down
+npm notice run node scripts/migrate.js down
+reverted 001_init
+EXIT_CODE=0
+
+=== S33 empty application schema | 2026-10-14T20:01:01.4881374+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: & ..\script\Inspect-Down.ps1 -Check EmptySchema
+[]
+PASS: all three migrations reverted
+EXIT_CODE=0
+
+=== S33 no migrations applied | 2026-10-14T20:01:01.5649222+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db ===
+COMMAND: npm.cmd run migrate:status
+npm notice run awad-price-migration-starter@1.0.0 migrate:status
+npm notice run node scripts/migrate.js status
+db D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\down-verify.db
+[ ] 001_init
+[ ] 002_expand_price_vnd
+[ ] 003_drop_price
+EXIT_CODE=0
+
+=== S33 main DB still contracted | 2026-10-14T20:01:01.9094955+07:00 | DB=D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db ===
+COMMAND: npm.cmd run check -- contract
+npm notice run awad-price-migration-starter@1.0.0 check
+npm notice run node scripts/check.js contract
+phase                      contract
+db                         D:\Workspace\1. Study\courses-fit-hcmus\2026-2027\csc13114-advanced-web\IA#02\awad-price-migration-starter\data\app.db
+columns                    id, name, price_vnd
+rows                       36026
+price_vnd_null             0
+price_vnd_not_integer      0
+price_vnd_invalid          0
+CONSISTENT
+EXIT_CODE=0

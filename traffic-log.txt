@@ -1,0 +1,104 @@
+
+=== traffic start 2026-10-14T12:54:25.786Z · targets http://localhost:3001 http://localhost:3002 · configured NEW_CLIENTS=0.3 · initial active=0 (gate absent)
+   5.1s ok=6508 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=6508 new_ok=0 new_inflight=0
+  10.1s ok=13491 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=13491 new_ok=0 new_inflight=0
+  15.1s ok=19574 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=19574 new_ok=0 new_inflight=0
+  20.1s ok=25843 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=25843 new_ok=0 new_inflight=0
+  25.1s ok=32329 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=32329 new_ok=0 new_inflight=0
+  30.1s ok=38624 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=38624 new_ok=0 new_inflight=0
+  35.1s ok=44993 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=44993 new_ok=0 new_inflight=0
+  40.1s ok=51524 error=0 contract=0 stale=0 unavailable=0 rerouted=0 old_ok=51524 new_ok=0 new_inflight=0
+  40.7s http://localhost:3001 down (ECONNRESET)
+  45.1s ok=70725 error=0 contract=0 stale=0 unavailable=0 rerouted=74 old_ok=70725 new_ok=0 new_inflight=0
+  50.1s ok=95730 error=0 contract=0 stale=0 unavailable=0 rerouted=176 old_ok=95730 new_ok=0 new_inflight=0
+  53.4s http://localhost:3001 back
+  55.1s ok=113467 error=0 contract=0 stale=0 unavailable=0 rerouted=229 old_ok=113467 new_ok=0 new_inflight=0
+  60.1s ok=119870 error=0 contract=0 stale=0 unavailable=0 rerouted=229 old_ok=119870 new_ok=0 new_inflight=0
+  64.0s http://localhost:3002 down (ECONNREFUSED)
+  65.1s ok=129222 error=0 contract=0 stale=0 unavailable=0 rerouted=252 old_ok=129222 new_ok=0 new_inflight=0
+  70.1s ok=154339 error=0 contract=0 stale=0 unavailable=0 rerouted=341 old_ok=154339 new_ok=0 new_inflight=0
+  75.1s ok=178946 error=0 contract=0 stale=0 unavailable=0 rerouted=444 old_ok=178946 new_ok=0 new_inflight=0
+  80.1s ok=202935 error=0 contract=0 stale=0 unavailable=0 rerouted=542 old_ok=202935 new_ok=0 new_inflight=0
+  85.1s ok=228143 error=0 contract=0 stale=0 unavailable=0 rerouted=641 old_ok=228143 new_ok=0 new_inflight=0
+  90.1s ok=253832 error=0 contract=0 stale=0 unavailable=0 rerouted=741 old_ok=253832 new_ok=0 new_inflight=0
+  95.1s ok=278948 error=0 contract=0 stale=0 unavailable=0 rerouted=825 old_ok=278948 new_ok=0 new_inflight=0
+  96.5s http://localhost:3002 back
+ 100.1s ok=290248 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=290248 new_ok=0 new_inflight=0
+ 105.1s ok=296717 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=296717 new_ok=0 new_inflight=0
+ 110.1s ok=302344 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=302344 new_ok=0 new_inflight=0
+ 111.8s NEW_CLIENTS enabled ratio=0.3
+ 115.1s ok=308890 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=307465 new_ok=1425 new_inflight=2
+ 120.1s ok=315086 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=311837 new_ok=3249 new_inflight=3
+ 125.1s ok=321579 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=316429 new_ok=5150 new_inflight=3
+ 130.1s ok=327997 error=0 contract=0 stale=0 unavailable=0 rerouted=847 old_ok=320911 new_ok=7086 new_inflight=2
+ 133.3s http://localhost:3001 down (ECONNRESET)
+ 135.1s ok=339057 error=0 contract=0 stale=0 unavailable=0 rerouted=878 old_ok=328661 new_ok=10396 new_inflight=2
+ 140.1s ok=363813 error=0 contract=0 stale=0 unavailable=0 rerouted=983 old_ok=346032 new_ok=17781 new_inflight=4
+ 145.1s ok=388242 error=0 contract=0 stale=0 unavailable=0 rerouted=1074 old_ok=363168 new_ok=25074 new_inflight=1
+ 150.1s ok=413386 error=0 contract=0 stale=0 unavailable=0 rerouted=1169 old_ok=380806 new_ok=32580 new_inflight=2
+ 155.1s ok=438535 error=0 contract=0 stale=0 unavailable=0 rerouted=1270 old_ok=398355 new_ok=40180 new_inflight=2
+ 159.8s http://localhost:3001 back
+ 160.1s ok=462192 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=414913 new_ok=47279 new_inflight=2
+ 165.1s ok=468890 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=419608 new_ok=49282 new_inflight=1
+ 170.1s ok=475259 error=0 contract=0 stale=0 unavailable=0 rerouted=1360 old_ok=424117 new_ok=51142 new_inflight=2
+ 170.6s http://localhost:3002 down (ECONNRESET)
+ 172.5s http://localhost:3002 back
+ 175.1s ok=487116 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=432372 new_ok=54744 new_inflight=4
+ 180.1s ok=493374 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=436722 new_ok=56652 new_inflight=2
+ 185.1s ok=500059 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=441341 new_ok=58718 new_inflight=2
+ 190.1s ok=506031 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=445570 new_ok=60461 new_inflight=3
+ 195.1s ok=512345 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=449996 new_ok=62349 new_inflight=2
+ 200.1s ok=518789 error=0 contract=0 stale=0 unavailable=0 rerouted=1392 old_ok=454516 new_ok=64273 new_inflight=1
+ 203.3s http://localhost:3001 down (ECONNREFUSED)
+ 205.1s http://localhost:3001 back
+ 205.1s ok=529351 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=461972 new_ok=67379 new_inflight=1
+ 210.1s ok=535974 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=466597 new_ok=69377 new_inflight=4
+ 215.1s ok=542254 error=0 contract=0 stale=0 unavailable=0 rerouted=1425 old_ok=470943 new_ok=71311 new_inflight=3
+ 216.0s http://localhost:3002 down (ECONNRESET)
+ 218.2s http://localhost:3002 back
+ 220.1s ok=552536 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=478182 new_ok=74354 new_inflight=3
+ 225.1s ok=559482 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=483008 new_ok=76474 new_inflight=3
+ 230.1s ok=565867 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=487355 new_ok=78512 new_inflight=2
+ 235.1s ok=573097 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=492374 new_ok=80723 new_inflight=1
+ 240.2s ok=579586 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=496852 new_ok=82734 new_inflight=0
+ 245.2s ok=586035 error=0 contract=0 stale=0 unavailable=0 rerouted=1461 old_ok=501297 new_ok=84738 new_inflight=1
+ 248.4s http://localhost:3001 down (ECONNRESET)
+ 250.2s ok=595995 error=0 contract=0 stale=0 unavailable=0 rerouted=1495 old_ok=508261 new_ok=87734 new_inflight=2
+ 250.5s http://localhost:3001 back
+ 255.2s ok=603193 error=0 contract=0 stale=0 unavailable=0 rerouted=1497 old_ok=513296 new_ok=89897 new_inflight=1
+ 260.2s ok=609734 error=0 contract=0 stale=0 unavailable=0 rerouted=1497 old_ok=517808 new_ok=91926 new_inflight=4
+ 261.5s http://localhost:3002 down (ECONNREFUSED)
+ 263.3s http://localhost:3002 back
+ 265.2s ok=620849 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=525599 new_ok=95250 new_inflight=1
+ 270.2s ok=627591 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=530377 new_ok=97214 new_inflight=1
+ 275.2s ok=634072 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=534941 new_ok=99131 new_inflight=0
+ 280.2s ok=639914 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=539014 new_ok=100900 new_inflight=1
+ 285.2s ok=645906 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=543156 new_ok=102750 new_inflight=1
+ 290.2s ok=651986 error=0 contract=0 stale=0 unavailable=0 rerouted=1524 old_ok=547427 new_ok=104559 new_inflight=2
+ 294.1s http://localhost:3001 down (ECONNRESET)
+ 295.2s ok=660701 error=0 contract=0 stale=0 unavailable=0 rerouted=1550 old_ok=553621 new_ok=107080 new_inflight=5
+ 296.3s http://localhost:3001 back
+ 300.2s ok=670526 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=560508 new_ok=110018 new_inflight=1
+ 305.2s ok=676668 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=564802 new_ok=111866 new_inflight=1
+ 310.2s ok=682980 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=569295 new_ok=113685 new_inflight=2
+ 315.2s ok=688998 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=573488 new_ok=115510 new_inflight=1
+ 320.2s ok=696125 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=578473 new_ok=117652 new_inflight=2
+ 325.2s ok=702309 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=582781 new_ok=119528 new_inflight=1
+ 330.2s ok=708324 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=586969 new_ok=121355 new_inflight=1
+ 335.2s ok=715205 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=591770 new_ok=123435 new_inflight=3
+ 340.2s ok=722106 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=596565 new_ok=125541 new_inflight=1
+ 345.2s ok=728505 error=0 contract=0 stale=0 unavailable=0 rerouted=1566 old_ok=601085 new_ok=127420 new_inflight=1
+ 347.8s http://localhost:3002 down (ECONNRESET)
+ 350.0s http://localhost:3002 back
+ 350.2s ok=741320 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=610144 new_ok=131176 new_inflight=1
+ 355.2s ok=747732 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=614654 new_ok=133078 new_inflight=2
+ 360.2s ok=754043 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=619081 new_ok=134962 new_inflight=0
+ 365.2s ok=760230 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=623402 new_ok=136828 new_inflight=3
+ 370.2s ok=767287 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=628284 new_ok=139003 new_inflight=2
+ 375.2s ok=773572 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=632686 new_ok=140886 new_inflight=2
+ 380.2s ok=780060 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=637206 new_ok=142854 new_inflight=2
+ 385.2s ok=786358 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=641658 new_ok=144700 new_inflight=3
+ 390.2s ok=792988 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=646274 new_ok=146714 new_inflight=2
+ 390.8s operator requested traffic stop; draining requests
+ 390.8s FINAL ok=793623 error=0 contract=0 stale=0 unavailable=0 rerouted=1597 old_ok=646726 new_ok=146897 new_inflight=0
+RESULT: zero failed requests

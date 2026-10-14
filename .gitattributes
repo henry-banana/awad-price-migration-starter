@@ -1,0 +1,3 @@
+# Preserve the exact bytes of raw execution evidence in Git.
+check-log.txt -text
+traffic-log.txt -text
