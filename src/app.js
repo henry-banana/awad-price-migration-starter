@@ -1,8 +1,9 @@
 import { createServer } from 'node:http';
+import { DB_PATH } from './db.js';
 
-// v1 of the menu service. Prices are stored in THOUSANDS of dong, as a float:
-// 45.5 means 45,500 đ. That was last year's decision; IA#2 undoes it.
+const APP_VERSION = 'v2';
 
+// v2 reads legacy price and atomically writes both columns.
 const json = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
   res.end(JSON.stringify(body));
@@ -18,23 +19,39 @@ async function readBody(req) {
 
 const isPrice = (p) => typeof p === 'number' && Number.isFinite(p) && p > 0 && p <= 100000;
 
+
+const isVnd = (p) => Number.isSafeInteger(p) && p > 0 && p <= 100000000;
+
+function normalizePrice(body) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
+  const old = Object.hasOwn(body, 'price');
+  const modern = Object.hasOwn(body, 'priceVnd');
+  if (!old && !modern) return null;
+  if (old && !isPrice(body.price)) return null;
+  if (modern && !isVnd(body.priceVnd)) return null;
+  const vnd = modern ? body.priceVnd : Math.round(body.price * 1000);
+  if (!isVnd(vnd)) return null;
+  if (old && modern && Math.round(body.price * 1000) !== vnd) return null;
+  return { price: vnd / 1000, priceVnd: vnd };
+}
+
 export function createApp(db) {
   const q = {
-    list: db.prepare('SELECT id, name, price FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
-    get: db.prepare('SELECT id, name, price FROM menu_items WHERE id = ?'),
-    insert: db.prepare('INSERT INTO menu_items (name, price) VALUES (?, ?)'),
-    setPrice: db.prepare('UPDATE menu_items SET price = ? WHERE id = ?'),
+    list: db.prepare('SELECT id, name, price, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
+    get: db.prepare('SELECT id, name, price, price_vnd FROM menu_items WHERE id = ?'),
+    insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
+    setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
 
-  const view = (row) => ({ id: row.id, name: row.name, price: row.price });
+  const view = (row) => ({ id: row.id, name: row.name, price: row.price, priceVnd: Math.round(row.price * 1000) });
 
   async function handle(req, res) {
     const url = new URL(req.url, 'http://x');
     const parts = url.pathname.split('/').filter(Boolean);
 
-    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true });
+    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: APP_VERSION, db: DB_PATH, pid: process.pid });
 
     if (parts[0] === 'menu' && parts.length === 1) {
       if (req.method === 'GET') {
@@ -44,9 +61,10 @@ export function createApp(db) {
       }
       if (req.method === 'POST') {
         const body = await readBody(req);
-        if (!body || typeof body.name !== 'string' || !body.name || !isPrice(body.price))
-          return error(res, 400, 'invalid_body', 'name (string) and price (thousands of dong) are required');
-        const { lastInsertRowid } = q.insert.run(body.name, body.price);
+        const money = normalizePrice(body);
+        if (!body || typeof body.name !== 'string' || !body.name || !money)
+          return error(res, 400, 'invalid_body', 'name and valid price or priceVnd are required');
+        const { lastInsertRowid } = q.insert.run(body.name, money.price, money.priceVnd);
         return json(res, 201, view(q.get.get(lastInsertRowid)));
       }
     }
@@ -58,9 +76,10 @@ export function createApp(db) {
       if (req.method === 'GET') return json(res, 200, view(row));
       if (req.method === 'PATCH') {
         const body = await readBody(req);
-        if (!body || !isPrice(body.price))
-          return error(res, 400, 'invalid_body', 'price (thousands of dong) is required');
-        q.setPrice.run(body.price, id);
+        const money = normalizePrice(body);
+        if (!money)
+          return error(res, 400, 'invalid_body', 'valid price or priceVnd is required');
+        q.setPrice.run(money.price, money.priceVnd, id);
         return json(res, 200, view(q.get.get(id)));
       }
     }
