@@ -1,9 +1,9 @@
 import { createServer } from 'node:http';
 import { DB_PATH } from './db.js';
 
-const APP_VERSION = 'v3';
+const APP_VERSION = 'v4';
 
-// v2 reads legacy price and atomically writes both columns.
+// v4 reads/writes integer dong only; legacy HTTP price remains in thousands.
 const json = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
   res.end(JSON.stringify(body));
@@ -39,8 +39,8 @@ export function createApp(db) {
   const q = {
     list: db.prepare('SELECT id, name, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
     get: db.prepare('SELECT id, name, price_vnd FROM menu_items WHERE id = ?'),
-    insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
-    setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
+    insert: db.prepare('INSERT INTO menu_items (name, price_vnd) VALUES (?, ?)'),
+    setPrice: db.prepare('UPDATE menu_items SET price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
@@ -64,7 +64,7 @@ export function createApp(db) {
         const money = normalizePrice(body);
         if (!body || typeof body.name !== 'string' || !body.name || !money)
           return error(res, 400, 'invalid_body', 'name and valid price or priceVnd are required');
-        const { lastInsertRowid } = q.insert.run(body.name, money.price, money.priceVnd);
+        const { lastInsertRowid } = q.insert.run(body.name, money.priceVnd);
         return json(res, 201, view(q.get.get(lastInsertRowid)));
       }
     }
@@ -79,7 +79,7 @@ export function createApp(db) {
         const money = normalizePrice(body);
         if (!money)
           return error(res, 400, 'invalid_body', 'valid price or priceVnd is required');
-        q.setPrice.run(money.price, money.priceVnd, id);
+        q.setPrice.run(money.priceVnd, id);
         return json(res, 200, view(q.get.get(id)));
       }
     }

@@ -76,15 +76,20 @@ test('sub-dong inputs normalize once and errors retain their shape', async () =>
   assert.equal((await call('GET', '/menu/99999')).body.error, 'not_found');
 }));
 
-test('v3 reads canonical for detail, list and orders, and dual-writes', async () => fixture(async ({ db, call }) => {
-  db.exec('UPDATE menu_items SET price=1,price_vnd=45500 WHERE id=1');
+test('v4 works before and after drop, preserves legacy API and never writes old column', async () => fixture(async ({ db, call, legacy }) => {
+  if (legacy) db.exec('UPDATE menu_items SET price=1 WHERE id=1');
   assert.equal((await call('GET', '/menu/1')).body.price, 45.5);
-  assert.equal((await call('GET', '/menu?limit=1')).body[0].price, 45.5);
+  assert.equal((await call('GET', '/menu?limit=1')).body[0].priceVnd, 45500);
   assert.equal((await call('POST', '/orders', { items: [{ menuItemId: 1, qty: 2 }] })).body.total, 91);
-  await call('PATCH', '/menu/1', { priceVnd: 63000 });
-  assert.deepEqual({ ...db.prepare('SELECT price,price_vnd FROM menu_items WHERE id=1').get() },
-    { price: 63, price_vnd: 63000 });
-  const created = await call('POST', '/menu', { name: 'Atomic', price: 44.5 });
-  assert.deepEqual({ ...db.prepare('SELECT price,price_vnd FROM menu_items WHERE id=?').get(created.body.id) },
-    { price: 44.5, price_vnd: 44500 });
+  await call('PATCH', '/menu/1', { price: 63 });
+  const created = await call('POST', '/menu', { name: 'Old client', price: 44.5 });
+  assert.equal(created.status, 201);
+  assert.equal(created.body.price, 44.5);
+  if (legacy) {
+    assert.equal(db.prepare('SELECT price FROM menu_items WHERE id=1').get().price, 1);
+    assert.equal(db.prepare('SELECT price FROM menu_items WHERE id=?').get(created.body.id).price, null);
+  } else {
+    assert.ok(!db.prepare('PRAGMA table_info(menu_items)').all().some(c => c.name === 'price'));
+    assert.equal((await call('PATCH', `/menu/${created.body.id}`, { priceVnd: 46000 })).body.price, 46);
+  }
 }));
