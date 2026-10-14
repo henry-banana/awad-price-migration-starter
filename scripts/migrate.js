@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url';
 // Apply or revert schema migrations, one file per step:
 //   migrations/NNN_name.up.sql   and   migrations/NNN_name.down.sql
 // `up` applies every pending step; `down` reverts the LAST applied step only.
@@ -5,7 +6,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { open, DB_PATH } from '../src/db.js';
 
-const DIR = new URL('../migrations/', import.meta.url).pathname;
+const DIR = fileURLToPath(new URL('../migrations/', import.meta.url));
 const db = open();
 db.exec('CREATE TABLE IF NOT EXISTS schema_migrations (version TEXT PRIMARY KEY, applied_at TEXT NOT NULL)');
 

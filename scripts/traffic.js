@@ -13,7 +13,7 @@
 // does not show the last acknowledged write ("stale"), and any moment when NO
 // instance answers ("unavailable"). One instance being down while another
 // answers is a rolling restart, not a failure — it is counted as "rerouted".
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, existsSync } from 'node:fs';
 
 const TARGETS = (process.env.TARGETS ?? 'http://localhost:3001,http://localhost:3002').split(',');
 const DURATION = Number(process.env.DURATION ?? 0);
@@ -67,7 +67,23 @@ const expected = new Map(); // id -> last acknowledged price, in thousands
 const inflight = new Set();
 const created = [];         // ids of items this run created, read back later
 const pick = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
-const isNew = () => Math.random() < NEW_CLIENTS;
+const GATE = process.env.NEW_CLIENTS_GATE ?? 'data/enable-new-clients';
+const STOP_FILE = process.env.TRAFFIC_STOP_FILE ?? 'data/stop-traffic';
+const clients = { old: 0, new: 0 };
+const clientInflight = { old: 0, new: 0 };
+if (!Number.isFinite(NEW_CLIENTS) || NEW_CLIENTS < 0 || NEW_CLIENTS > 1)
+  throw new Error('NEW_CLIENTS must be between 0 and 1');
+if (existsSync(GATE) || existsSync(STOP_FILE))
+  throw new Error('Start with absent gate and stop files; preserve earlier runs separately');
+let gateEnabled = false;
+const isNew = () => {
+  const enabled = existsSync(GATE);
+  if (enabled !== gateEnabled) {
+    gateEnabled = enabled;
+    log(`${ts()} NEW_CLIENTS ${enabled ? 'enabled' : 'disabled'} ratio=${enabled ? NEW_CLIENTS : 0}`);
+  }
+  return enabled && Math.random() < NEW_CLIENTS;
+};
 
 function checkItem(r, client, where) {
   const d = r.data;
@@ -81,6 +97,8 @@ function checkItem(r, client, where) {
 async function once() {
   const roll = Math.random();
   const client = isNew() ? 'new' : 'old';
+  clientInflight[client]++;
+  try {
 
   if (roll < 0.6) {                                     // read one item
     const id = created.length && Math.random() < 0.15 ? created[pick(0, created.length - 1)] : pick(1, IDS);
@@ -93,7 +111,7 @@ async function once() {
     if (!checkItem(r, client, `GET /menu/${id}`)) return;
     if (watching && !inflight.has(id) && expected.get(id) === want && Math.abs(r.data.price - want) > 1e-9)
       return fail('stale', `GET /menu/${id} via ${r.target}: price ${r.data.price}, last write was ${want}`);
-    return n.ok++;
+    clients[client]++; return n.ok++;
   }
 
   if (roll < 0.8) {                                     // re-price one item
@@ -111,7 +129,7 @@ async function once() {
       if (!checkItem(r, client, `PATCH /menu/${id}`)) return;
       if (Math.abs(r.data.price - price) > 1e-9)
         return fail('stale', `PATCH /menu/${id} via ${r.target}: sent ${price}, response says ${r.data.price}`);
-      return n.ok++;
+      clients[client]++; return n.ok++;
     } finally { inflight.delete(id); }
   }
 
@@ -125,7 +143,7 @@ async function once() {
     const want = items.reduce((s, i) => s + expected.get(i.menuItemId) * i.qty, 0);
     if (Math.abs(r.data.total - want) > 1e-6)
       return fail('stale', `POST /orders via ${r.target}: total ${r.data.total}, expected ${want}`);
-    return n.ok++;
+    clients[client]++; return n.ok++;
   }
 
   if (roll < 0.97) {                                    // add a dish
@@ -140,7 +158,7 @@ async function once() {
       return fail('stale', `POST /menu via ${r.target}: sent ${price}, response says ${r.data.price}`);
     expected.set(r.data.id, price);
     created.push(r.data.id);
-    return n.ok++;
+    clients[client]++; return n.ok++;
   }
 
   const r = await send('GET', `/menu?limit=20&offset=${pick(0, IDS - 20)}`);  // list a page
@@ -148,7 +166,8 @@ async function once() {
   if (r.status >= 500) return fail('error', `GET /menu -> ${r.status} via ${r.target}`);
   if (r.status !== 200 || !Array.isArray(r.data) || r.data.some((x) => typeof x.price !== 'number'))
     return fail('contract', `GET /menu via ${r.target}: bad page`);
-  n.ok++;
+  clients[client]++; n.ok++;
+  } finally { clientInflight[client]--; }
 }
 
 // Learn the fixed prices once, before the run starts.
@@ -158,21 +177,27 @@ for (let id = 1; id <= FIXED; id++) {
   expected.set(id, r.data.price);
 }
 
-log(`\n=== traffic start ${new Date().toISOString()} · targets ${TARGETS.join(' ')} · new clients ${NEW_CLIENTS}`);
+log(`\n=== traffic start ${new Date().toISOString()} · targets ${TARGETS.join(' ')} · configured NEW_CLIENTS=${NEW_CLIENTS} · initial active=0 (gate absent)`);
 let stop = false;
 process.on('SIGINT', () => { stop = true; });
+process.on('SIGTERM', () => { stop = true; });
 if (DURATION) setTimeout(() => { stop = true; }, DURATION * 1000);
 
 const bad = () => n.error + n.contract + n.stale + n.unavailable;
 const tick = setInterval(() =>
-  log(`${ts()} ok=${n.ok} error=${n.error} contract=${n.contract} stale=${n.stale} unavailable=${n.unavailable} rerouted=${n.rerouted}`), 5000);
+  log(`${ts()} ok=${n.ok} error=${n.error} contract=${n.contract} stale=${n.stale} unavailable=${n.unavailable} rerouted=${n.rerouted} old_ok=${clients.old} new_ok=${clients.new} new_inflight=${clientInflight.new}`), 5000);
 
 await Promise.all(Array.from({ length: WORKERS }, async () => {
   while (!stop) {
+    if (existsSync(STOP_FILE)) {
+      if (!stop) log(`${ts()} operator requested traffic stop; draining requests`);
+      stop = true;
+      break;
+    }
     try { await once(); } catch (e) { fail('error', `client crash: ${e.message}`); }
   }
 }));
 clearInterval(tick);
-log(`${ts()} FINAL ok=${n.ok} error=${n.error} contract=${n.contract} stale=${n.stale} unavailable=${n.unavailable} rerouted=${n.rerouted}`);
+log(`${ts()} FINAL ok=${n.ok} error=${n.error} contract=${n.contract} stale=${n.stale} unavailable=${n.unavailable} rerouted=${n.rerouted} old_ok=${clients.old} new_ok=${clients.new} new_inflight=${clientInflight.new}`);
 log(bad() === 0 ? 'RESULT: zero failed requests' : `RESULT: ${bad()} failed requests`);
 process.exit(bad() === 0 ? 0 : 1);
