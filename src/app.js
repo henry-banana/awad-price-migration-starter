@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { DB_PATH } from './db.js';
 
-const APP_VERSION = 'v2';
+const APP_VERSION = 'v3';
 
 // v2 reads legacy price and atomically writes both columns.
 const json = (res, status, body) => {
@@ -37,15 +37,15 @@ function normalizePrice(body) {
 
 export function createApp(db) {
   const q = {
-    list: db.prepare('SELECT id, name, price, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
-    get: db.prepare('SELECT id, name, price, price_vnd FROM menu_items WHERE id = ?'),
+    list: db.prepare('SELECT id, name, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
+    get: db.prepare('SELECT id, name, price_vnd FROM menu_items WHERE id = ?'),
     insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
     setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
 
-  const view = (row) => ({ id: row.id, name: row.name, price: row.price, priceVnd: Math.round(row.price * 1000) });
+  const view = (row) => ({ id: row.id, name: row.name, price: row.price_vnd / 1000, priceVnd: row.price_vnd });
 
   async function handle(req, res) {
     const url = new URL(req.url, 'http://x');
@@ -95,11 +95,11 @@ export function createApp(db) {
         for (const { menuItemId, qty } of body.items) {
           const item = q.get.get(menuItemId);
           if (!item || !Number.isInteger(qty) || qty < 1) throw Object.assign(new Error(), { status: 400 });
-          q.insertLine.run(orderId, item.id, qty, item.price);
-          total += item.price * qty;
+          q.insertLine.run(orderId, item.id, qty, item.price_vnd / 1000);
+          total += item.price_vnd * qty;
         }
         db.exec('COMMIT');
-        return json(res, 201, { id: Number(orderId), total: Math.round(total * 1000) / 1000 });
+        return json(res, 201, { id: Number(orderId), total: total / 1000 });
       } catch (e) {
         db.exec('ROLLBACK');
         if (e.status === 400) return error(res, 400, 'invalid_item', 'unknown menuItemId or bad qty');
